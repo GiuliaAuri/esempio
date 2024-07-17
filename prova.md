@@ -1,4 +1,42 @@
 ```Java
+public static List<Student> filterStudents(List<Student> students, StudentPredicate sp, StudentFunction sf, StudentConsumer sc) {
+    List<Student> result = new ArrayList<>();
+    for (Student s : students) {
+        if (sp.test(s)) {
+            String str = sf.apply(s);
+            sc.accept(str);
+            result.add(s);
+        }
+    }
+    return result;
+}
+
+public static void main(String[] args) {
+    List<Student> result = filterStudents(students,
+            s -> s.getAverage() >= 26 && s.getAverage() <= 30,
+            s -> String.format("%s_%s_%f", s.getLastname(), s.getName(), s.getAverage()),
+            s -> System.out.println(s));
+}
+
+```
+```Java
+public static <T extends Measurable> double average(List<T> objects) {
+    // ...
+}
+//oppure
+public static double average(List<? extends Measurable> objects) {
+    // ...
+}
+```
+```Java
+// singolo limite di tipo
+<T extends A>
+// limite di tipo multiplo
+<T extends A & B & C & ...>
+//! Il primo tipo vincolato ("A") può essere una classe o un'interfaccia.
+//Il resto dei tipi vincolati (da "B" in poi) devono essere interfacce.
+```
+```Java
 public class Pencil implements DrawingTool {
     @Override
     public String draw(Curve curve) {
@@ -145,3 +183,26 @@ public class SortByAge implements Comparator<Person> {
 }
 
 ```
+```Java
+public static <T> T doSomething(T t) {
+    return t;
+}
+public static <E> int length(E[] array) {
+    return array.length;
+}
+
+```
+```Java
+class SimpleClass {
+
+    public <T> T getParameterizedObject(T t) {
+        return t;
+    }
+}
+/*Questa classe non fornisce un parametro di tipo, quindi dobbiamo specificare il parametro di tipo nella
+*dichiarazione del metodo per rendere il metodo getParameterizedObject generico.
+*!In questo esempio non possiamo usare T come tipo per un campo nella classe, perché appartiene al metodo
+*piuttosto che alla classe stessa.
+*/
+```
+
