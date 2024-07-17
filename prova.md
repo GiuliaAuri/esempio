@@ -1,4 +1,89 @@
 ```Java
+
+```
+
+```Java
+// stream da COLLECTIONS
+List<Integer> famousNumbers = List.of(0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55);
+Stream<Integer> numbersStream = famousNumbers.stream();
+
+// stream da ARRAY
+Stream<Double> doubleStream = Arrays.stream(new Double[]{ 1.01, 1d, 0.99, 1.02, 1d, 0.99 });
+
+// da alcuni valori
+Stream<String> persons = Stream.of("John", "Demetra", "Cleopatra");
+
+// concatenando altri flussi insieme
+Stream<String> stream1 = Stream.of(/* some values */);
+Stream<String> stream2 = Stream.of(/* some values */);
+Stream<String> resultStream = Stream.concat(stream1, stream2);
+```
+
+```Java
+// LOOP
+import java.util.ArrayList;
+
+public static void main(String[] args) {
+    List<Integer> numbers = new ArrayList<>(List.of(1, 4, 7, 6, 2, 9, 7, 8));
+    
+    long count = 0;
+    for (int number : numbers) {
+        if (number > 5) {
+            count++;
+        }
+    }
+    
+    System.out.println(count); // 5
+
+}
+
+// STREAM
+long count = numbers.stream()
+        .filter(number -> number > 5)
+        .count(); // 5
+```
+
+
+
+```Java
+// sintassi di riferimenti:
+
+//	- a metodo STATICO
+ClassName :: staticMethodName
+//	esempio
+Function<Double, Double> sqrt = Math::sqrt;
+sqrt.apply(100.0d); // the result is 10.0d
+
+//	- a metodo d'ISTANZA di un OGGETTO ESISTENTE
+objectName :: instanceMethodName
+//	esempio
+String whatsGoingOnText = "What's going on here?";
+Function<String, Integer> indexWithinWhatsGoingOnText = whatsGoingOnText::indexOf;
+System.out.println(indexWithinWhatsGoingOnText.apply("going")); // 7
+System.out.println(indexWithinWhatsGoingOnText.apply("Hi"));    // -1
+
+//	- a metodo d'ISTANZA di un OGGETTO di un TIPO PARTICOLARE
+ClassName :: instanceMethodName
+//	esempio
+Function<Long, Double> converter = Long::doubleValue;
+converter.apply(100L); // the result is 100.0d
+
+//	- a un COSTRUTTORE
+ClassName :: new
+//	esempio
+Function<String, Person> personGenerator = Person::new; // produce nuovi Person oggetti in base ai loro nomi
+Person johnFoster = personGenerator.apply("John Foster"); // noi abbiamo un oggetto John Foster
+```
+
+
+```Java
+//esempio di confronto
+// lambda expression
+BiFunction<Integer, Integer, Integer> max = (x, y) -> Integer.max(x, y);
+// method reference
+BiFunction<Integer, Integer, Integer> max = Integer::max;
+```
+```Java
 public static List<Student> filterStudents(List<Student> students, StudentPredicate sp, StudentFunction sf, StudentConsumer sc) {
     List<Student> result = new ArrayList<>();
     for (Student s : students) {
