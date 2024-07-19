@@ -1,7 +1,41 @@
 ```Java
 
 ```
+```Java
+// THREAD.STARTVIRTUALTHREAD()
+Runnable runnable = () -> System.out.println("Inside Runnable");
+Thread.startVirtualThread(runnable);
 
+//or
+
+Thread.startVirtualThread(() -> {
+	//Code to execute in virtual thread
+	System.out.println("Inside Runnable");
+});
+
+// THREAD.BUILDER
+Runnable runnable = () -> System.out.println("Inside Runnable");
+Thread virtualThread = Thread.ofVirtual().start(runnable);
+
+Thread.Builder builder = Thread.ofPlatform().name("Platform-Thread");
+Thread t1 = builder.start(() -> {/*...*/});
+Thread t2 = builder.start(() -> {/*...*/});
+
+// EXECUTORS.NEWVIRTUALTHREADPERTASKEXECUTOR
+try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
+    IntStream.range(0, 10000).forEach(i -> {
+        executor.submit(() -> {
+            Thread.sleep(Duration.ofSeconds(1));
+            return i;
+        });
+    });
+}
+```
+```Java
+Thread virtualThread = ...; //Create virtual thread
+//virtualThread.setDaemon(true);  //It has no effect
+//virtualThread.setPriority(Thread.MAX_PRIORITY);  //It has no effect
+```
 ```Java
 // stream da COLLECTIONS
 List<Integer> famousNumbers = List.of(0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55);
